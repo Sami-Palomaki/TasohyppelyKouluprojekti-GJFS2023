@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -13,17 +14,21 @@ public class Player : MonoBehaviour
     public Rigidbody rb;
     public float groundCheckRadius = 0.1f;
     public float gravity = 9.8f;
+    public bool wKeypressed = false;
     float xInput;
     bool grounded = false;
     bool isTouchingWall = false;
     bool jump = false;
     bool isFacingRight = true;
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+        
+        // Pelaaja ei leiju niin kauaa ilmassa
         Physics.gravity = new Vector3(0, -50, 0);
     }
 
@@ -40,6 +45,7 @@ public class Player : MonoBehaviour
         Movement();
         JumpForce();
 
+        // Käännä pelaajaa liikkumisen suuntaan
         if (Input.GetAxis("Horizontal") < 0)
         {
             transform.localScale = new Vector3(-1f, 1f, 1f);
@@ -50,6 +56,8 @@ public class Player : MonoBehaviour
             transform.localScale = new Vector3(1f, 1f, 1f);
             isFacingRight = true;
         }
+
+        // Ground-check
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
@@ -102,7 +110,7 @@ public class Player : MonoBehaviour
         animator.SetBool("IsJumping", false);
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Ground")
         {
@@ -114,7 +122,7 @@ public class Player : MonoBehaviour
             isTouchingWall = true;
         }
     }
-    void OnCollisionExit2D(Collision2D collision)
+    void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.tag == "Ground")
         {
@@ -129,6 +137,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay(Collision other) 
     {
-        grounded = true;      
+        grounded = true;    
+
     }
 }
