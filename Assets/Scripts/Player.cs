@@ -15,6 +15,11 @@ public class Player : MonoBehaviour
     public float groundCheckRadius = 0.1f;
     public float gravity = 9.8f;
     public bool wKeypressed = false;
+    public float flashDuration = 0.1f; // Kuinka kauan pelaaja välähtää
+    private SpriteRenderer sr; // Pelaajan SpriteRenderer-komponentti
+    public Material flashMaterial; // Materiaali, joka asetetaan pelaajalle välähdyksen aikana
+    public Material defaultMaterial; // Oletusmateriaali pelaajalle
+    private SpriteRenderer spriteRenderer; // Pelaajan SpriteRenderer-komponentti
     float xInput;
     bool grounded = false;
     bool isTouchingWall = false;
@@ -27,6 +32,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
         
         // Pelaaja ei leiju niin kauaa ilmassa
         Physics.gravity = new Vector3(0, -50, 0);
@@ -73,8 +80,6 @@ public class Player : MonoBehaviour
 
     void Movement()
     {
-        // Vector3 movementVector = new Vector3(xInput * movePower, 0, 0);
-        // rb.AddForce(movementVector, ForceMode.Impulse);
         Vector3 velocity = rb.velocity;
         velocity.x = xInput * movePower;
         rb.velocity = velocity;
@@ -140,4 +145,24 @@ public class Player : MonoBehaviour
         grounded = true;    
 
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Spikes"))
+        {
+            Debug.Log("Pelaaja osui piikkeihin");
+            // Pelaaja osui piikkeihin
+            StartCoroutine(FlashRed());
+        }
+    }
+
+    private IEnumerator FlashRed()
+    {
+        Debug.Log("Starting FlashRed coroutine"); // Lisää tämä rivi Debug.Log-komentona
+        spriteRenderer.material = flashMaterial;
+        yield return new WaitForSeconds(flashDuration);
+        spriteRenderer.material = defaultMaterial;
+        Debug.Log("FlashRed coroutine completed"); // Lisää tämä rivi Debug.Log-komentona
+    }
+
 }

@@ -151,6 +151,9 @@ MonoBehaviour:
   groundCheckRadius: 0.4
   gravity: 9.8
   wKeypressed: 0
+  flashDuration: 0.2
+  flashMaterial: {fileID: 2100000, guid: 0f1385f464c472d45bfbd18df6635139, type: 2}
+  defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!136 &7269875384970201411
 CapsuleCollider:
   m_ObjectHideFlags: 0
