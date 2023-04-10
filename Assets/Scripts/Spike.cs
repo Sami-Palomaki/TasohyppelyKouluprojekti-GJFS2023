@@ -5,19 +5,11 @@ using UnityEngine;
 public class Spike : MonoBehaviour
 {
     public float bounceForce = 10f; // Pomppuvoima, joka pelaajalle annetaan osuessaan piikkiin
-    // public int energyLoss = 10; // Energiapisteiden määrä, jonka pelaaja menettää osuessaan piikkiin
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            // // Laske pelaajalta energiaa
-            // PlayerController player = other.GetComponent<PlayerController>();
-            // if (player != null)
-            // {
-            //     player.LoseEnergy(energyLoss);
-            // }
-
             // Pomppaa pelaaja ilmaan
             Rigidbody rb = other.GetComponent<Rigidbody>();
             if (rb != null)
