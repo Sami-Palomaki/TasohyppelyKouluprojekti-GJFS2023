@@ -12,7 +12,6 @@ public class OffScreenTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             youDiedEffect.Play();
             // AudioManager.instance.Play(youAreDead, this.gameObject);
